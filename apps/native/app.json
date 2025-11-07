@@ -1,36 +1,62 @@
 {
   "expo": {
-    "name": "native",
-    "slug": "native",
+    "name": "LaunqStack",
+    "slug": "launqstack",
     "version": "1.0.0",
-    "scheme": "com.turbo.example",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
+    "icon": "./assets/logo-wordmark.png",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#0A0F1A",
+      "image": "./assets/logo-wordmark.png",
+      "resizeMode": "contain"
     },
-    "updates": {
-      "fallbackToCacheTimeout": 0
+    "scheme": "launqstack",
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "userInterfaceStyle": "dark",
+    "androidStatusBar": {
+      "backgroundColor": "#0A0F1A",
+      "barStyle": "light-content",
+      "translucent": false
     },
-    "assetBundlePatterns": ["**/*"],
+    "backgroundColor": "#0A0F1A",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.turbo.example",
+      "infoPlist": {
+        "UIViewControllerBasedStatusBarAppearance": false,
+        "UIStatusBarStyle": "UIStatusBarStyleLightContent"
+      },
+      "splash": {
+        "backgroundColor": "#0A0F1A",
+        "image": "./assets/logo-wordmark.png",
+        "resizeMode": "contain"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "foregroundImage": "./assets/logo-wordmark.png",
+        "backgroundColor": "#0A0F1A"
       },
-      "package": "com.turbo.example"
+      "splash": {
+        "backgroundColor": "#0A0F1A",
+        "image": "./assets/logo-wordmark.png",
+        "resizeMode": "contain"
+      },
+      "package": "com.brucewaynegroup.launqstack"
     },
-    "web": {
-      "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+    "extra": {
+      "eas": {
+        "projectId": "00000000-0000-0000-0000-000000000000"
+      }
     },
-    "plugins": ["expo-router"]
+    "plugins": [
+      "expo-maps"
+    ]
   }
 }
