@@ -2,14 +2,14 @@ import { useMemo } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { palette, theme } from '@/theme';
-import type { Listing } from '@/data/listings';
+import type { ListingSummary } from '@/data/listings';
 import { ListingCard } from '@/components/ListingCard';
 import { getMapComponents } from './mapLoader';
 
 const { MapView, Marker } = getMapComponents();
 
 type PopularSectionProps = {
-    listings: Listing[];
+    listings: ListingSummary[];
     showTotal: boolean;
     showMap: boolean;
 };

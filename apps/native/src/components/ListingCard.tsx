@@ -1,9 +1,11 @@
 import { Image, StyleSheet, Text, View, Pressable } from 'react-native';
 import { theme, palette } from '@/theme';
-import type { Listing } from '@/data/listings';
+import type { ListingSummary } from '@/data/listings';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { calculateReserveAmount, getReserveDepositPercentLabel } from '@/config/pricing';
+import { formatCurrency } from '@/utils/currency';
 
 type RootStackParamList = {
     Root: undefined;
@@ -11,13 +13,17 @@ type RootStackParamList = {
 };
 
 type Props = {
-    item: Listing;
+    item: ListingSummary;
     onPress?: () => void;
     showTotal?: boolean;
 };
 
 export function ListingCard({ item, onPress, showTotal }: Props) {
     const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
+    const reserveAmount = calculateReserveAmount(item.pricePerMonth);
+    const reserveLabel = getReserveDepositPercentLabel();
+    const monthlyPrice = formatCurrency(item.pricePerMonth);
+    const threeMonthTotal = formatCurrency(item.pricePerMonth * 3);
     return (
         <Pressable
             onPress={() => {
@@ -33,8 +39,9 @@ export function ListingCard({ item, onPress, showTotal }: Props) {
             <View style={styles.body}>
                 <View style={styles.rowBetween}>
                     <Text style={styles.title} numberOfLines={1}>{item.title}</Text>
-                    <Text style={styles.price}>£{item.pricePerMonth}<Text style={styles.night}> /Month{showTotal && ' · 3 months £' + item.pricePerMonth * 3}</Text></Text>
+                    <Text style={styles.price}>{monthlyPrice}<Text style={styles.night}> /Month{showTotal ? ` · 3 months ${threeMonthTotal}` : ''}</Text></Text>
                 </View>
+                <Text style={styles.reserve}>Reserve {formatCurrency(reserveAmount)} ({reserveLabel})</Text>
                 <View style={styles.row}>
                     <Ionicons name="location-outline" size={14} color={palette.textMuted} />
                     <Text style={styles.location}>{' '}{item.location}</Text>
@@ -75,6 +82,7 @@ const styles = StyleSheet.create({
     title: { ...theme.typography.subtitle, flex: 1, marginRight: 8 },
     price: { ...theme.typography.subtitle, color: palette.text },
     night: { ...theme.typography.caption, color: palette.textMuted },
+    reserve: { ...theme.typography.caption, color: palette.textSubtle, marginTop: 4 },
     location: { ...theme.typography.caption, color: palette.textMuted },
     rating: { ...theme.typography.caption, color: palette.text },
     reviews: { color: palette.textMuted },

@@ -35,7 +35,7 @@ export function SearchCard({ selectedCategory, onSelectCategory }: SearchCardPro
 
 const styles = StyleSheet.create({
     card: {
-        marginHorizontal: 24,
+        marginHorizontal: 0,
         marginTop: -32,
         backgroundColor: palette.surface,
         borderRadius: 20,

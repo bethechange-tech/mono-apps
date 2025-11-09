@@ -1,0 +1,86 @@
+import { StyleSheet, Platform } from 'react-native';
+import { palette } from '@/theme';
+
+export const appTabBarStyles = StyleSheet.create({
+  wrapper: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  shell: {
+    width: '100%',
+    maxWidth: 420,
+    alignItems: 'center',
+  },
+  container: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
+    paddingVertical: Platform.select({ ios: 14, default: 12 }),
+    borderRadius: 28,
+    backgroundColor: '#FFFFFFF2',
+    shadowColor: '#0F172A',
+    shadowOpacity: 0.12,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 12 },
+    elevation: 10,
+  },
+  tab: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 6,
+    borderRadius: 20,
+    gap: 4,
+  },
+  tabActive: {
+    backgroundColor: palette.highlight,
+  },
+  tabLabel: {
+    fontSize: 11,
+    fontWeight: '500',
+    color: palette.textSubtle,
+  },
+  tabLabelActive: {
+    color: palette.text,
+  },
+  primaryActionWrapper: {
+    position: 'absolute',
+    top: -30,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  primaryActionGlow: {
+    position: 'absolute',
+    width: 94,
+    height: 94,
+    borderRadius: 47,
+    backgroundColor: '#2256F21A',
+  },
+  primaryAction: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: palette.primary,
+    alignItems: 'center',
+    justifyContent: 'center',
+    shadowColor: '#1E3A8A',
+    shadowOpacity: 0.35,
+    shadowRadius: 18,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 12,
+  },
+  primaryActionLabel: {
+    marginTop: 6,
+    fontSize: 12,
+    fontWeight: '600',
+    color: palette.primary,
+    letterSpacing: 0.2,
+  },
+});

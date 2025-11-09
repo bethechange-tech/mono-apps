@@ -1,0 +1,17 @@
+{
+    "name": "stashspot-api-types",
+    "version": "0.0.0",
+    "private": true,
+    "types": "./src/index.ts",
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "generate": "openapi-typescript https://stashspot-api-v2-e76vzky47q-ew.a.run.app/openapi --output src/generated.ts",
+        "clean": "rm -f src/generated.ts"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "openapi-typescript": "^7.4.3"
+    }
+}

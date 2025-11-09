@@ -6,8 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/logo-wordmark.png",
     "splash": {
-      "backgroundColor": "#0A0F1A",
-      "image": "./assets/logo-wordmark.png",
+      "backgroundColor": "#F7F7F9",
       "resizeMode": "contain"
     },
     "scheme": "launqstack",
@@ -15,13 +14,13 @@
       "ios",
       "android"
     ],
-    "userInterfaceStyle": "dark",
+    "userInterfaceStyle": "light",
     "androidStatusBar": {
-      "backgroundColor": "#0A0F1A",
-      "barStyle": "light-content",
+      "backgroundColor": "#F7F7F9",
+      "barStyle": "dark-content",
       "translucent": false
     },
-    "backgroundColor": "#0A0F1A",
+    "backgroundColor": "#F7F7F9",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -30,22 +29,19 @@
       "bundleIdentifier": "com.turbo.example",
       "infoPlist": {
         "UIViewControllerBasedStatusBarAppearance": false,
-        "UIStatusBarStyle": "UIStatusBarStyleLightContent"
+        "UIStatusBarStyle": "UIStatusBarStyleDarkContent"
       },
       "splash": {
-        "backgroundColor": "#0A0F1A",
-        "image": "./assets/logo-wordmark.png",
+        "backgroundColor": "#F7F7F9",
         "resizeMode": "contain"
       }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/logo-wordmark.png",
-        "backgroundColor": "#0A0F1A"
+        "backgroundColor": "#F7F7F9"
       },
       "splash": {
-        "backgroundColor": "#0A0F1A",
-        "image": "./assets/logo-wordmark.png",
+        "backgroundColor": "#F7F7F9",
         "resizeMode": "contain"
       },
       "package": "com.brucewaynegroup.launqstack"
