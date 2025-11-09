@@ -1,29 +1,7 @@
-export type StoragePost = {
-    id: string;
-    content: string;
-    images: string[];
-    videos: string[];
-    createdAt: string;
-    user: {
-        id: string;
-        username: string;
-        name: string;
-    };
-    storage: {
-        id: string;
-        title: string;
-        location: string;
-        pricePerMonth: number;
-        rating: number;
-        reviews: number;
-        sizeSqFt: number;
-        access: string;
-        climateControlled: boolean;
-        image: string;
-        category: string;
-        tags: string[];
-    };
-};
+import type { OpenApiJsonResponse } from 'stashspot-api-types';
+
+export type ListPostsResponse = OpenApiJsonResponse<'listPosts', 200>;
+export type StoragePost = OpenApiJsonResponse<'getPost', 200>;
 
 export const storagePosts: StoragePost[] = [
     {
@@ -100,7 +78,7 @@ export const storagePosts: StoragePost[] = [
             access: 'App access 6am – 11pm',
             climateControlled: false,
             image: 'https://cdn.example.com/images/stg_552_cover.jpg',
-            category: 'loft',
+            category: 'attic',
             tags: ['Smart locks', 'Contactless'],
         },
     },
@@ -126,7 +104,7 @@ export const storagePosts: StoragePost[] = [
             access: 'Saturday collection window',
             climateControlled: true,
             image: 'https://cdn.example.com/images/stg_619_cover.jpg',
-            category: 'warehouse',
+            category: 'garage',
             tags: ['Shelving', 'Operations'],
         },
     },
