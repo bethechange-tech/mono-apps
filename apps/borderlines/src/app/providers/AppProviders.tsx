@@ -4,15 +4,17 @@ import { useStoryStore } from '@/modules/story';
 
 const StoryBootstrap: React.FC = () => {
   const hasLoaded = useStoryStore((state) => state.hasLoaded);
-  const loadStories = useStoryStore((state) => state.loadStories);
 
   useEffect(() => {
     if (!hasLoaded) {
-      loadStories().catch((error) => {
-        console.warn('Failed to bootstrap stories', error);
-      });
+      useStoryStore
+        .getState()
+        .loadStories()
+        .catch((error) => {
+          console.warn('Failed to bootstrap stories', error);
+        });
     }
-  }, [hasLoaded, loadStories]);
+  }, [hasLoaded]);
 
   return null;
 };

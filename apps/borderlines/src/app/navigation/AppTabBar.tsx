@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Text, TouchableOpacity, View } from 'react-native';
 import type { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { palette } from '@/theme';
 import { appTabBarStyles as styles } from './AppTabBar.styles';
@@ -36,6 +37,15 @@ export function AppTabBar({ state, descriptors, navigation }: BottomTabBarProps)
   const insets = useSafeAreaInsets();
 
   const routes = useMemo(() => state.routes, [state.routes]);
+
+  const focusedRoute = routes[state.index];
+  const focusedNestedRouteName = getFocusedRouteNameFromRoute(focusedRoute) ?? focusedRoute.name;
+
+  const shouldHideTabBar = focusedRoute.name === 'HomeTab' && focusedNestedRouteName === 'CreateStory';
+
+  if (shouldHideTabBar) {
+    return null;
+  }
 
   const handlePress = (routeName: string, index: number) => {
     const event = navigation.emit({
@@ -80,6 +90,10 @@ export function AppTabBar({ state, descriptors, navigation }: BottomTabBarProps)
               inactiveIcon: 'ellipse-outline' as IconName,
             };
             const { options } = descriptors[route.key];
+            const tabBarTestID =
+              'tabBarTestID' in options
+                ? (options as { tabBarTestID?: string }).tabBarTestID
+                : undefined;
 
             return (
               <TouchableOpacity
@@ -87,7 +101,7 @@ export function AppTabBar({ state, descriptors, navigation }: BottomTabBarProps)
                 accessibilityRole="button"
                 accessibilityState={isFocused ? { selected: true } : {}}
                 accessibilityLabel={options.tabBarAccessibilityLabel}
-                testID={options.tabBarTestID}
+                testID={tabBarTestID}
                 onPress={() => handlePress(route.name, index)}
                 onLongPress={() => handleLongPress(route.name, index)}
                 activeOpacity={0.9}

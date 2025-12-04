@@ -1,0 +1,17 @@
+{
+    "name": "borderlines-api-types",
+    "version": "0.0.0",
+    "private": true,
+    "types": "./src/index.ts",
+    "files": [
+        "src"
+    ],
+    "scripts": {
+        "generate": "openapi-typescript https://borderline-api-527847102898.europe-west1.run.app/openapi --output src/generated.ts",
+        "clean": "rm -f src/generated.ts"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "openapi-typescript": "^7.4.3"
+    }
+}

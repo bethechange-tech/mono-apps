@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { STORIES, Story } from './data';
-import { storyApiClient, StoryQueryParams, StorySortOrder, StoryFacetOptions } from './storyApi';
+import { Story } from './data';
+import { storyApiClient, StoryQueryParams, StorySortOrder } from './storyApi';
 
 type NormalizedStoryParams = {
   search: string;
@@ -41,18 +41,6 @@ const areStoryParamsEqual = (a?: StoryQueryParams, b?: StoryQueryParams): boolea
   );
 };
 
-const isBaseQuery = (params?: StoryQueryParams): boolean => {
-  const normalized = normalizeStoryParams(params);
-  return (
-    normalized.search.length === 0 &&
-    normalized.category === NORMALIZED_ALL &&
-    normalized.country.length === 0 &&
-    normalized.route.length === 0 &&
-    normalized.maxDaysAgo === null &&
-    normalized.limit === null
-  );
-};
-
 type StoryState = {
   stories: Story[];
   allStories: Story[];
@@ -63,19 +51,14 @@ type StoryState = {
   activeParams?: StoryQueryParams;
   lastRequestId: number;
   getStoryById: (id: string) => Story | undefined;
-  loadStories: (params?: StoryQueryParams) => Promise<Story[]>;
+  loadStories: (params?: StoryQueryParams, options?: { refresh?: boolean }) => Promise<Story[]>;
 };
 
 export const useStoryStore = create<StoryState>((set, get) => ({
-  ...(() => {
-    const facets: StoryFacetOptions = storyApiClient.getFacetOptions(STORIES);
-    return {
-      stories: STORIES,
-      allStories: STORIES,
-      countryOptions: facets.countries,
-      routeOptions: facets.routes,
-    };
-  })(),
+  stories: [],
+  allStories: [],
+  countryOptions: [],
+  routeOptions: [],
   isLoading: false,
   hasLoaded: false,
   activeParams: undefined,
@@ -84,35 +67,43 @@ export const useStoryStore = create<StoryState>((set, get) => ({
     const { stories, allStories } = get();
     return stories.find((story) => story.id === id) ?? allStories.find((story) => story.id === id);
   },
-  loadStories: async (params) => {
+  loadStories: async (params, options = {}) => {
     const { hasLoaded, activeParams, isLoading } = get();
-    if (isLoading && areStoryParamsEqual(activeParams, params)) {
+    const refreshRequested = options.refresh ?? false;
+
+    if (!refreshRequested && isLoading && areStoryParamsEqual(activeParams, params)) {
       return get().stories;
     }
 
-    if (hasLoaded && areStoryParamsEqual(activeParams, params)) {
+    if (!refreshRequested && hasLoaded && areStoryParamsEqual(activeParams, params)) {
       return get().stories;
     }
 
     const requestId = Date.now();
-    set({ isLoading: true, lastRequestId: requestId, activeParams: params });
+    set({ isLoading: !hasLoaded || refreshRequested, lastRequestId: requestId, activeParams: params });
 
     try {
-      const nextStories = await storyApiClient.fetchStories(params);
-      const replaceAllStories = isBaseQuery(params);
+      const shouldRefreshSource = refreshRequested || !hasLoaded;
+      const nextStories = await storyApiClient.fetchStories(params, {
+        refresh: shouldRefreshSource,
+      });
 
       set((state) => {
         if (state.lastRequestId !== requestId) {
           return {};
         }
 
-        const facets = replaceAllStories
-          ? storyApiClient.getFacetOptions(nextStories)
-          : { countries: state.countryOptions, routes: state.routeOptions };
+        const nextAllStories = shouldRefreshSource
+          ? nextStories
+          : state.allStories.length > 0
+            ? state.allStories
+            : nextStories;
+
+        const facets = storyApiClient.getFacetOptions(nextAllStories);
 
         return {
           stories: nextStories,
-          allStories: replaceAllStories ? nextStories : state.allStories,
+          allStories: nextAllStories,
           countryOptions: facets.countries,
           routeOptions: facets.routes,
           hasLoaded: true,

@@ -12,6 +12,7 @@ export type FormState = {
   meaning: string;
   imageUrls: string;
   shareAnonymously: boolean;
+  isSpotlight: boolean;
 };
 
 export type FieldKey = keyof FormState;
